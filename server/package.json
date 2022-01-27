@@ -1,0 +1,41 @@
+{
+  "name": "backend-chat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc --build && pm2 start pm2.config.js",
+    "dev": "HTTPS=true env $(cat ./.env) nodemon ./src/index.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@graphql-tools/schema": "^8.3.1",
+    "@types/cors": "^2.8.12",
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.13",
+    "@types/express-session": "^1.17.4",
+    "@types/graphql": "^14.5.0",
+    "@types/jsonwebtoken": "^8.5.6",
+    "@types/moment": "^2.13.0",
+    "@types/mongoose": "^5.11.97",
+    "@types/passport": "^1.0.7",
+    "@types/passport-facebook": "^2.1.11",
+    "apollo-server": "^3.5.0",
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^11.0.0",
+    "express": "^4.17.2",
+    "express-session": "^1.17.2",
+    "firebase": "^9.6.3",
+    "firebase-admin": "^10.0.1",
+    "graphql": "^16.2.0",
+    "graphql-subscriptions": "^2.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.1",
+    "mongoose": "^6.1.2",
+    "passport": "^0.5.2",
+    "passport-facebook": "^3.0.0",
+    "subscriptions-transport-ws": "^0.11.0"
+  }
+}
