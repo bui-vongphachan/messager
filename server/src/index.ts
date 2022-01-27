@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
-import { createServer } from "http";
+import { createServer as createHTTPServer } from "http";
+import { createServer as createHTTPSServer } from "https";
 import { execute, subscribe } from "graphql";
 import { SubscriptionServer } from "subscriptions-transport-ws";
 import { makeExecutableSchema } from "@graphql-tools/schema";
@@ -18,15 +19,19 @@ import moment from "moment";
 dotenv.config();
 
 (async function () {
-  /* const httpServer = createServer(
-    {
-      key: fs.readFileSync("key.pem"),
-      cert: fs.readFileSync("cert.pem"),
-    },
-    app
-  ); */
-
-  const httpServer = createServer(app);
+  const httpServer = (() => {
+    if (process.env.NODE_ENV === "production") {
+      return createHTTPServer(app);
+    } else {
+      return createHTTPSServer(
+        {
+          key: fs.readFileSync("key.pem"),
+          cert: fs.readFileSync("cert.pem"),
+        },
+        app
+      );
+    }
+  })();
 
   const schema = makeExecutableSchema({
     typeDefs,
