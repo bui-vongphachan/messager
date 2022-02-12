@@ -3,3 +3,4 @@ package-lock.json
 *.pem
 *.yml
 *.yaml
+build
