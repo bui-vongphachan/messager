@@ -1,21 +1,29 @@
 import { Box } from "@mui/material";
-import { Fragment, Suspense, useEffect, useRef } from "react";
+import { Fragment, useRef } from "react";
 import { useGetMessages } from "../../../../../hooks";
 import { useStyles } from "./style";
 import { ProfileWithPresence } from "../../../../../models";
-
 import CircularProgress from "@mui/material/CircularProgress";
-import dynamic from "next/dynamic";
-const MessageComponent = dynamic(() => import("./message"));
+import MessageComponent from "./message";
+import {
+  List,
+  AutoSizer,
+  CellMeasurerCache,
+  CellMeasurer,
+} from "react-virtualized";
 
 export default function MessagePanelBody(props: {
   selectedProfile: ProfileWithPresence | null | undefined;
 }) {
-  const { selectedProfile } = props;
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const cache = useRef(
+    new CellMeasurerCache({
+      defaultHeight: 50,
+      fixedWidth: true,
+    })
+  );
   const classes = useStyles();
   const [GetMessagesResult] = useGetMessages({
-    profile: selectedProfile,
+    profile: props.selectedProfile,
   });
 
   if (GetMessagesResult.loading) {
@@ -29,12 +37,33 @@ export default function MessagePanelBody(props: {
   return (
     <Fragment>
       <Box className={classes.box}>
-        <Suspense fallback={<div>Loading...</div>}>
-          {GetMessagesResult.data?.getMessages?.map((message, num) => {
-            return <MessageComponent key={num} message={message} />;
-          })}
-          <div ref={bottomRef} />
-        </Suspense>
+        <AutoSizer>
+          {({ height, width }) => (
+            <List
+              height={height}
+              width={width}
+              rowCount={GetMessagesResult.data?.getMessages.length || 0}
+              rowHeight={cache.current.rowHeight}
+              deferredMeasurementCache={cache.current}
+              rowRenderer={({ key, parent, index, style }) => {
+                const message = GetMessagesResult.data?.getMessages[index];
+                return (
+                  <CellMeasurer
+                    key={key}
+                    cache={cache.current}
+                    columnIndex={0}
+                    rowIndex={index}
+                    parent={parent}
+                  >
+                    <div style={{ ...style }}>
+                      <MessageComponent message={message!} />
+                    </div>
+                  </CellMeasurer>
+                );
+              }}
+            />
+          )}
+        </AutoSizer>
       </Box>
     </Fragment>
   );

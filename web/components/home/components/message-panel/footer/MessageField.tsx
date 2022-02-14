@@ -1,7 +1,5 @@
 import { TextField } from "@mui/material";
-import { useFormik } from "formik";
 import React, { useRef, KeyboardEvent, useState } from "react";
-import { SendMessageVariables } from "../../../../../hooks";
 import { ProfileWithPresence } from "../../../../../models";
 import { useStyles } from "./style";
 

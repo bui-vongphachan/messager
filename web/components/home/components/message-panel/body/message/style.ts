@@ -4,14 +4,13 @@ import { makeStyles } from "@mui/styles";
 export const useStyles = makeStyles((theme: Theme) => ({
   box: (props: { isOwn: boolean }) => {
     return {
-      margin: "1rem",
       display: "flex",
       flexDirection: "column",
       alignItems: props.isOwn ? "flex-end" : "flex-start",
+      margin: "1rem",
     };
   },
   paper: {
-    maxWidth: "75%",
     padding: ".5rem 1rem",
   },
   messageHeader: {},
