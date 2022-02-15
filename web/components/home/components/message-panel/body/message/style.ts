@@ -1,19 +1,37 @@
 import { Theme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import moment from "moment";
+import { Message } from "../../../../../../models";
 
 export const useStyles = makeStyles((theme: Theme) => ({
-  box: (props: { isOwn: boolean }) => {
+  box: (props: {
+    user_id: string;
+    currentMessage: Message;
+    previousMessage: Message | null | undefined;
+  }) => {
+    const { user_id, currentMessage, previousMessage } = props;
+
+    const currentDate = moment(currentMessage.createdAt);
+    const previousDate = moment(previousMessage?.createdAt);
+
+    const timeDiff = currentDate.diff(previousDate, "minutes");
+
+    const isOwn = currentMessage.from._id === user_id;
+    const haveTimeGap = timeDiff >= 5;
+
     return {
       display: "flex",
       flexDirection: "column",
-      alignItems: props.isOwn ? "flex-end" : "flex-start",
+      alignItems: isOwn ? "flex-end" : "flex-start",
+      marginTop: haveTimeGap ? "1.5rem" : "0.1rem",
+      marginBottom: "0.1rem",
     };
   },
   contentBox: () => {
     return { maxWidth: "75%" };
   },
   paper: {
-    padding: ".5rem 1rem",
+    padding: ".3rem .7rem",
   },
   messageHeader: {},
   messageHeaderText: {
@@ -24,5 +42,12 @@ export const useStyles = makeStyles((theme: Theme) => ({
     },
     display: "none",
   },
-  messageBody: {},
+  messageBody: {
+    minWidth: "70px",
+  },
+  messageTimeSent: {
+    color: theme.palette.text.secondary,
+    textAlign: "right",
+    fontSize: "12px",
+  },
 }));

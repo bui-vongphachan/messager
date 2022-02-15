@@ -4,16 +4,22 @@ import { useStyles } from "./style";
 import Cookie from "universal-cookie";
 import { Fragment, memo } from "react";
 import DateDivider from "./date-divider";
+import moment from "moment";
 
 const MessageComponent = (props: {
   currentMessage: Message;
   previousMessage: Message | null | undefined;
 }) => {
+  const { currentMessage, previousMessage } = props;
   const user_id = new Cookie().get("user_id");
-  const message = props.currentMessage;
+
   const classes = useStyles({
-    isOwn: message.from._id === user_id,
+    user_id,
+    currentMessage,
+    previousMessage,
   });
+
+  const currentTime = moment(currentMessage.createdAt).format("HH:mm");
 
   return (
     <Fragment>
@@ -21,7 +27,7 @@ const MessageComponent = (props: {
         currentMessage={props.currentMessage}
         previousMessage={props.previousMessage}
       />
-      <div id={message._id} className={classes.box}>
+      <div id={currentMessage._id} className={classes.box}>
         <div className={classes.contentBox}>
           <Paper className={classes.paper}>
             <Box className={classes.messageHeader}>
@@ -29,11 +35,12 @@ const MessageComponent = (props: {
                 className={classes.messageHeaderText}
                 variant="subtitle2"
               >
-                {message.from.name}
+                {currentMessage.from.name}
               </Typography>
             </Box>
             <Box className={classes.messageBody}>
-              <Typography variant="body1"> {message.text}</Typography>
+              <Typography variant="body1"> {currentMessage.text}</Typography>
+              <div className={classes.messageTimeSent}>{currentTime}</div>
             </Box>
           </Paper>
         </div>
