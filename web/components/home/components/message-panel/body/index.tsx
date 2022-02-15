@@ -26,10 +26,21 @@ export default function MessagePanelBody(props: {
     profile: props.selectedProfile,
   });
 
-  if (GetMessagesResult.loading) {
+  if (GetMessagesResult.loading && !GetMessagesResult.data) {
     return (
       <Box sx={{ display: "flex" }} className={classes.box}>
         <CircularProgress className={classes.spinner} />
+      </Box>
+    );
+  }
+
+  if (GetMessagesResult.error || !GetMessagesResult.data) {
+    return (
+      <Box sx={{ display: "flex" }} className={classes.box}>
+        <Box sx={{ color: "red" }}>
+          Error:{" "}
+          {GetMessagesResult.error ? GetMessagesResult.error.message : ""}
+        </Box>
       </Box>
     );
   }
@@ -45,6 +56,7 @@ export default function MessagePanelBody(props: {
               rowCount={GetMessagesResult.data?.getMessages.length || 0}
               rowHeight={cache.current.rowHeight}
               deferredMeasurementCache={cache.current}
+              scrollToIndex={GetMessagesResult.data?.getMessages.length || 0}
               rowRenderer={({ key, parent, index, style }) => {
                 const message = GetMessagesResult.data?.getMessages[index];
                 return (
