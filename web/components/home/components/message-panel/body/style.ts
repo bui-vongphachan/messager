@@ -17,6 +17,9 @@ export const useStyles = makeStyles((theme: Theme) => ({
     overflowX: "hidden",
     backgroundColor: theme.palette.grey[100],
   },
+  virtualizedList: {
+    paddingRight: "1rem",
+  },
   spinner: {
     margin: "1rem auto",
   },

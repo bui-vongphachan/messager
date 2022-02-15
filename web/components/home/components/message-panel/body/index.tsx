@@ -67,7 +67,7 @@ export default function MessagePanelBody(props: {
         <AutoSizer>
           {({ height, width }) => (
             <List
-              style={{ padding: "1rem" }}
+              className={classes.virtualizedList}
               ref={listRef}
               height={height}
               width={width}
