@@ -9,13 +9,13 @@ let num = 1;
 
 export default function MessagePanelFooter() {
   const { selectedProfile } = useContext(HomePageContext);
-  const [sendMessage] = useSendMessage();
+  const [sendMessage] = useSendMessage()
   const classes = useStyles();
 
   const handleFormSubmit = useCallback(
-    (text: string) => {
+    async (text: string) => {
       if (selectedProfile) {
-        sendMessage({
+        await sendMessage({
           receiverId: selectedProfile._id,
           text,
         });
