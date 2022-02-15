@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { Fragment, useRef } from "react";
+import { Fragment, useEffect, useMemo, useRef } from "react";
 import { useGetMessages } from "../../../../../hooks";
 import { useStyles } from "./style";
 import { ProfileWithPresence } from "../../../../../models";
@@ -15,6 +15,7 @@ import {
 export default function MessagePanelBody(props: {
   selectedProfile: ProfileWithPresence | null | undefined;
 }) {
+  const listRef = useRef<List | null>(null);
   const cache = useRef(
     new CellMeasurerCache({
       defaultHeight: 50,
@@ -25,6 +26,21 @@ export default function MessagePanelBody(props: {
   const [GetMessagesResult] = useGetMessages({
     profile: props.selectedProfile,
   });
+
+  const messages = useMemo(() => {
+    if (GetMessagesResult.data) {
+      if (GetMessagesResult.data.getMessages) {
+        return GetMessagesResult.data.getMessages;
+      }
+    }
+    return [];
+  }, [GetMessagesResult]);
+
+  useEffect(() => {
+    if (messages.length > 0) {
+      listRef.current?.scrollToRow(messages.length - 1);
+    }
+  }, [messages]);
 
   if (GetMessagesResult.loading && !GetMessagesResult.data) {
     return (
@@ -51,14 +67,15 @@ export default function MessagePanelBody(props: {
         <AutoSizer>
           {({ height, width }) => (
             <List
+              ref={listRef}
               height={height}
               width={width}
-              rowCount={GetMessagesResult.data?.getMessages.length || 0}
+              rowCount={messages.length || 0}
               rowHeight={cache.current.rowHeight}
               deferredMeasurementCache={cache.current}
-              scrollToIndex={GetMessagesResult.data?.getMessages.length || 0}
+              scrollToIndex={messages.length || 0}
               rowRenderer={({ key, parent, index, style }) => {
-                const message = GetMessagesResult.data?.getMessages[index];
+                const message = messages[index];
                 return (
                   <CellMeasurer
                     key={key}
