@@ -42,7 +42,7 @@ export const useGetMessages = (variables: {
           });
 
           if (!existing_message) {
-            previosMessages = [newMessage, ...previosMessages];
+            previosMessages = [...previosMessages, newMessage];
           }
 
           isCalled = true;
