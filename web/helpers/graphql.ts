@@ -12,7 +12,7 @@ import { errorLink } from "./graphql-errors";
 import Cookies from "universal-cookie";
 
 const httpLink = new HttpLink({
-  uri: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT,
+  uri: process.env.NEXT_PUBLIC_BACKEND_URL,
 });
 
 const authLink = setContext((_, { headers }) => {
