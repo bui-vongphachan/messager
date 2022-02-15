@@ -16,5 +16,5 @@ export const getMessages = async (
     .populate("from to")
     .limit(50);
 
-  return messages
+  return messages.reverse()
 };
