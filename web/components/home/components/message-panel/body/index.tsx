@@ -67,6 +67,7 @@ export default function MessagePanelBody(props: {
         <AutoSizer>
           {({ height, width }) => (
             <List
+              style={{ padding: "1rem" }}
               ref={listRef}
               height={height}
               width={width}
@@ -75,7 +76,9 @@ export default function MessagePanelBody(props: {
               deferredMeasurementCache={cache.current}
               scrollToIndex={messages.length || 0}
               rowRenderer={({ key, parent, index, style }) => {
-                const message = messages[index];
+                const previousMessage = messages[index - 1];
+                const currentMessage = messages[index];
+
                 return (
                   <CellMeasurer
                     key={key}
@@ -85,7 +88,10 @@ export default function MessagePanelBody(props: {
                     parent={parent}
                   >
                     <div style={{ ...style }}>
-                      <MessageComponent message={message!} />
+                      <MessageComponent
+                        currentMessage={currentMessage!}
+                        previousMessage={previousMessage}
+                      />
                     </div>
                   </CellMeasurer>
                 );

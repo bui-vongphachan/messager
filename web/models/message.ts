@@ -8,4 +8,5 @@ export interface Message {
   from: FacebookProfile;
   to: FacebookProfile;
   schema_version: number;
+  createdAt: string;
 }

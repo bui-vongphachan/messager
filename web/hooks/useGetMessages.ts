@@ -72,6 +72,7 @@ const queryString = gql`
         name
         picture
       }
+      createdAt
     }
   }
 `;
@@ -91,6 +92,7 @@ const subscriptionString = gql`
         name
         picture
       }
+      createdAt
     }
   }
 `;

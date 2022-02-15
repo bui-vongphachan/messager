@@ -8,6 +8,7 @@ export const message = gql`
     from: FacebookProfile
     to: FacebookProfile
     schema_version: Int
+    createdAt: Date
   }
   type Query {
     getMessages(receiver_id: ID): [Message]

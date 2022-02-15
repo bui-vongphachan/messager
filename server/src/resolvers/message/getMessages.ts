@@ -14,7 +14,8 @@ export const getMessages = async (
     .sort({ _id: -1 })
     .lean()
     .populate("from to")
-    .limit(50);
+    .limit(50)
+    .lean();
 
-  return messages.reverse()
+  return messages.reverse();
 };

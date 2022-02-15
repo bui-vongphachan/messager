@@ -7,8 +7,10 @@ export const useStyles = makeStyles((theme: Theme) => ({
       display: "flex",
       flexDirection: "column",
       alignItems: props.isOwn ? "flex-end" : "flex-start",
-      margin: "1rem",
     };
+  },
+  contentBox: () => {
+    return { maxWidth: "75%" };
   },
   paper: {
     padding: ".5rem 1rem",
@@ -20,6 +22,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
     "&:hover": {
       color: theme.palette.secondary.dark,
     },
+    display: "none",
   },
   messageBody: {},
 }));

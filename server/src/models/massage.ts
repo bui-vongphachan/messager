@@ -8,6 +8,7 @@ export interface MessageDoc extends mongoose.Document {
   from: FacebookProfileDoc;
   to: FacebookProfileDoc;
   schema_version: number;
+  createdAt: string;
 }
 
 interface Doc extends mongoose.Model<MessageDoc> {}
