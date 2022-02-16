@@ -11,7 +11,7 @@ passport.use(
     {
       clientID: process.env.FACEBOOK_APP_ID,
       clientSecret: process.env.FACEBOOK_APP_SECRET,
-      callbackURL: "https://localhost:4000/api/v1/facebook/callback",
+      callbackURL: process.env.FACEBOOK_CALLBACK_URL,
       profileFields: [
         "id",
         "displayName",
@@ -49,6 +49,7 @@ passport.use(
 
         return done(null, profile);
       } catch (error) {
+        console.log("NONO")
         return done(error, profile);
       }
     }
