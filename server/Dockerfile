@@ -1,11 +1,9 @@
-FROM node:alpine
+FROM node:14-alpine3.14 as builder
 
 WORKDIR /app
-COPY package.json .
-RUN npm install -g npm@8.3.2
-RUN npm install
-RUN npm install -g typescript
 COPY . .
-RUN tsc --build
+RUN npm i --only=prod && npm i --save-dev @types/jest && npm i -g typescript && tsc --build
 
-CMD ["npm", "start"]
+FROM node:14-alpine3.14
+COPY --from=builder /app /app
+CMD ["node", "/app/build/index.js"]
