@@ -12,10 +12,7 @@ app.use(bodyParser.json());
 
 app.use(
   session({
-    secret: "keyboard cat",
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true },
+    secret: "keyboard cat"
   })
 );
 
