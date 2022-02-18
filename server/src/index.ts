@@ -20,7 +20,17 @@ dotenv.config();
 
 (async function () {
   const httpServer = (() => {
-    return createHTTPServer(app);
+    if (process.env.NODE_ENV === "production") {
+      return createHTTPServer(app);
+    } else {
+      return createHTTPSServer(
+        {
+          key: fs.readFileSync("key.pem"),
+          cert: fs.readFileSync("cert.pem"),
+        },
+        app
+      );
+    }
   })();
 
   const schema = makeExecutableSchema({
@@ -51,7 +61,7 @@ dotenv.config();
 
         return { ...params, ...message };
       },
-      onDisconnect: async (webSocket, context) => { },
+      onDisconnect: async (webSocket, context) => {},
     },
     { server: httpServer, path: "/subscriptions" }
   );
