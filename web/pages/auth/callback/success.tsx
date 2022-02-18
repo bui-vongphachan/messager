@@ -22,7 +22,7 @@ const AuthCallbackSuccessPage = (props: {
     cookies.set("user_picture", props.user_picture, { path: "/" });
     cookies.set("access_token", props.access_token, { path: "/" });
     cookies.set("refresh_token", props.refresh_token, { path: "/" });
-    window.location.replace("/");
+    window.location.replace(process.env.NEXT_PUBLIC_DOMAIN_NAME!);
   }
 
   if (props.error_code || props.error_message) {

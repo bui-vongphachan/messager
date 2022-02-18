@@ -7,12 +7,10 @@ import ProfileListPanel from "./components/profile-list-panel";
 import { GetHomePageQueryResponse } from "../../hooks";
 const MessagePanel = dynamic(() => import("./components/message-panel"));
 
-export default function RootHomePageComponent(props: {
-  dataSet: GetHomePageQueryResponse;
-}) {
+export default function RootHomePageComponent() {
   const classes = useStyles();
   return (
-    <HomePageContextProvider dataSet={props.dataSet}>
+    <HomePageContextProvider>
       <Container>
         <Box className={classes.root}>
           <Grid container spacing={2}>

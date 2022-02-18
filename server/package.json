@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "tsc --build && pm2 start pm2.config.js",
+    "start": "node build/index.js",
     "dev": "HTTPS=true env $(cat ./.env) nodemon ./src/index.ts"
   },
   "author": "",
@@ -27,7 +27,7 @@
     "dotenv": "^11.0.0",
     "express": "^4.17.2",
     "express-session": "^1.17.2",
-    "firebase": "^9.6.3",
+    "firebase": "^9.6.4",
     "firebase-admin": "^10.0.1",
     "graphql": "^16.2.0",
     "graphql-subscriptions": "^2.0.0",

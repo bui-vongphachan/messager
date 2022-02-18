@@ -1,7 +1,6 @@
 */node_modules
 */package-lock.json
 */.env
-*/*.config.js
 */build
 */*.pem
 */firebase-admin-config.json
@@ -30,3 +29,8 @@
 # typescript
 */*.tsbuildinfo
 */*.config
+
+*/*.yml
+*/*.yaml
+*/Dockerfile
+*/*.sh

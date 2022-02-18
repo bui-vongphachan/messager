@@ -1,24 +1,48 @@
 import { Box } from "@mui/material";
-import { Fragment, Suspense, useEffect, useRef } from "react";
+import { Fragment, useEffect, useMemo, useRef } from "react";
 import { useGetMessages } from "../../../../../hooks";
 import { useStyles } from "./style";
 import { ProfileWithPresence } from "../../../../../models";
-
 import CircularProgress from "@mui/material/CircularProgress";
-import dynamic from "next/dynamic";
-const MessageComponent = dynamic(() => import("./message"));
+import MessageComponent from "./message";
+import {
+  List,
+  AutoSizer,
+  CellMeasurerCache,
+  CellMeasurer,
+} from "react-virtualized";
 
 export default function MessagePanelBody(props: {
   selectedProfile: ProfileWithPresence | null | undefined;
 }) {
-  const { selectedProfile } = props;
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const listRef = useRef<List | null>(null);
+  const cache = useRef(
+    new CellMeasurerCache({
+      defaultHeight: 50,
+      fixedWidth: true,
+    })
+  );
   const classes = useStyles();
   const [GetMessagesResult] = useGetMessages({
-    profile: selectedProfile,
+    profile: props.selectedProfile,
   });
 
-  if (GetMessagesResult.loading) {
+  const messages = useMemo(() => {
+    if (GetMessagesResult.data) {
+      if (GetMessagesResult.data.getMessages) {
+        return GetMessagesResult.data.getMessages;
+      }
+    }
+    return [];
+  }, [GetMessagesResult]);
+
+  useEffect(() => {
+    if (messages.length > 0) {
+      listRef.current?.scrollToRow(messages.length - 1);
+    }
+  }, [messages]);
+
+  if (GetMessagesResult.loading && !GetMessagesResult.data) {
     return (
       <Box sx={{ display: "flex" }} className={classes.box}>
         <CircularProgress className={classes.spinner} />
@@ -26,15 +50,52 @@ export default function MessagePanelBody(props: {
     );
   }
 
+  if (GetMessagesResult.error || !GetMessagesResult.data) {
+    return (
+      <Box sx={{ display: "flex" }} className={classes.box}>
+        <Box sx={{ color: "red" }}>
+          Error:{" "}
+          {GetMessagesResult.error ? GetMessagesResult.error.message : ""}
+        </Box>
+      </Box>
+    );
+  }
+
   return (
     <Fragment>
       <Box className={classes.box}>
-        <Suspense fallback={<div>Loading...</div>}>
-          {GetMessagesResult.data?.getMessages?.map((message, num) => {
-            return <MessageComponent key={num} message={message} />;
-          })}
-          <div ref={bottomRef} />
-        </Suspense>
+        <AutoSizer>
+          {({ height, width }) => (
+            <List
+              className={classes.virtualizedList}
+              ref={listRef}
+              height={height}
+              width={width}
+              rowCount={messages.length || 0}
+              rowHeight={cache.current.rowHeight}
+              deferredMeasurementCache={cache.current}
+              scrollToIndex={messages.length || 0}
+              rowRenderer={({ key, parent, index, style }) => {
+                return (
+                  <CellMeasurer
+                    key={key}
+                    cache={cache.current}
+                    columnIndex={0}
+                    rowIndex={index}
+                    parent={parent}
+                  >
+                    <div style={{ ...style }}>
+                      <MessageComponent
+                        current_index={index}
+                        messages={messages}
+                      />
+                    </div>
+                  </CellMeasurer>
+                );
+              }}
+            />
+          )}
+        </AutoSizer>
       </Box>
     </Fragment>
   );

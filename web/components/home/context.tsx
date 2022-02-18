@@ -5,6 +5,7 @@ import {
   GetHomePageQueryResponse,
   GetNewMessageResponse,
   GetNewMessageVairables,
+  useGetHomeQuery,
 } from "../../hooks";
 import { ProfileWithPresence } from "../../models";
 
@@ -21,13 +22,14 @@ export interface HomePageInterface {
 
 export const HomePageContext = createContext<HomePageInterface>({});
 
-const HomePageContextProvider = (props: { children: any; dataSet: any }) => {
+const HomePageContextProvider = (props: { children: any }) => {
+  const [result] = useGetHomeQuery();
   const [selectedProfile, setSelectedProfile] = useState(null);
 
   return (
     <HomePageContext.Provider
       value={{
-        dataSet: props.dataSet,
+        dataSet: result.data,
         selectedProfile,
         setSelectedProfile,
       }}

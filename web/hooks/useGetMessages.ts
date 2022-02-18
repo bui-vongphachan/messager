@@ -42,7 +42,7 @@ export const useGetMessages = (variables: {
           });
 
           if (!existing_message) {
-            previosMessages = [newMessage, ...previosMessages];
+            previosMessages = [...previosMessages, newMessage];
           }
 
           isCalled = true;
@@ -72,6 +72,7 @@ const queryString = gql`
         name
         picture
       }
+      createdAt
     }
   }
 `;
@@ -91,6 +92,7 @@ const subscriptionString = gql`
         name
         picture
       }
+      createdAt
     }
   }
 `;

@@ -2,32 +2,50 @@ import { Box, Paper, Typography } from "@mui/material";
 import { Message } from "../../../../../../models";
 import { useStyles } from "./style";
 import Cookie from "universal-cookie";
-import { Suspense } from "react";
+import { Fragment, memo, useMemo } from "react";
+import DateDivider from "./date-divider";
+import moment from "moment";
 
-export default function MessageComponent(props: { message: Message }) {
+const MessageComponent = (props: {  
+  current_index: number;
+  messages: Message[];
+}) => {
+  const { current_index, messages } = props;
   const user_id = new Cookie().get("user_id");
-  const { message } = props;
-  const classes = useStyles({
-    isOwn: message.from._id === user_id,
-  });
+
+  const classes = useStyles({ user_id, current_index, messages });
+
+  const currentMessage = useMemo(() => {
+    return messages[current_index];
+  }, [messages, current_index]);
+
+  const currentTime = useMemo(() => {
+    return moment(currentMessage.createdAt).format("HH:mm");
+  }, [currentMessage]);
 
   return (
-    <div id={message._id} className={classes.box}>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Paper className={classes.paper}>
-          <Box className={classes.messageHeader}>
-            <Typography
-              className={classes.messageHeaderText}
-              variant="subtitle2"
-            >
-              {message.from.name}
-            </Typography>
-          </Box>
-          <Box className={classes.messageBody}>
-            <Typography variant="body1"> {message.text}</Typography>
-          </Box>
-        </Paper>
-      </Suspense>
-    </div>
+    <Fragment>
+      <DateDivider current_index={current_index} messages={messages} />
+      <div id={currentMessage._id} className={classes.box}>
+        <div className={classes.contentBox}>
+          <Paper className={classes.paper}>
+            <Box className={classes.messageHeader}>
+              <Typography
+                className={classes.messageHeaderText}
+                variant="subtitle2"
+              >
+                {currentMessage.from.name}
+              </Typography>
+            </Box>
+            <Box className={classes.messageBody}>
+              <Typography variant="body1"> {currentMessage.text}</Typography>
+              <div className={classes.messageTimeSent}>{currentTime}</div>
+            </Box>
+          </Paper>
+        </div>
+      </div>
+    </Fragment>
   );
-}
+};
+
+export default memo(MessageComponent);

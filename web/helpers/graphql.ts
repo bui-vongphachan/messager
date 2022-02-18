@@ -12,7 +12,7 @@ import { errorLink } from "./graphql-errors";
 import Cookies from "universal-cookie";
 
 const httpLink = new HttpLink({
-  uri: "http://localhost:4000/graphql",
+  uri: process.env.NEXT_PUBLIC_BACKEND_URL,
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -29,7 +29,7 @@ const authLink = setContext((_, { headers }) => {
 
 const wsLink = process.browser
   ? (new WebSocketLink({
-      uri: "ws://localhost:4000/subscriptions",
+      uri: process.env.NEXT_PUBLIC_GRAPHQL_SUBSCRIPTION_ENDPOINT as string,
       options: {
         reconnect: true,
         connectionParams: () => {
