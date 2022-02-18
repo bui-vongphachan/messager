@@ -1,12 +1,8 @@
-import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
-import type { GetServerSidePropsContext } from "next";
 import Head from "next/head";
 import { Fragment } from "react";
-import Cookies from "universal-cookie";
 import RootHomePageComponent from "../components/home";
-import { GetHomePageQueryResponse, useGetHomeQueryString } from "../hooks";
 
-const Home = (props: GetHomePageQueryResponse) => {
+const Home = () => {
   return (
     <Fragment>
       <Head>
@@ -14,36 +10,11 @@ const Home = (props: GetHomePageQueryResponse) => {
         <meta name="home page" content="ສົ່ງຂໍ້ຄວາມ " />
         <link rel="icon" href="/troll.ico" />
       </Head>
-      <main>HAHA</main>
+      <main>
+        <RootHomePageComponent />
+      </main>
     </Fragment>
   );
 };
-
-export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-  const { req } = ctx;
-  const cookie = new Cookies(req.headers.cookie);
-
-  const client = new ApolloClient({
-    ssrMode: true,
-    link: createHttpLink({
-      uri: process.env.NEXT_PUBLIC_BACKEND_URL,
-      headers: {
-        Authorization: cookie.get("access_token"),
-      },
-    }),
-    cache: new InMemoryCache(),
-  });
-
-  const response = await client.query<GetHomePageQueryResponse>({
-    query: useGetHomeQueryString,
-  });
-
-  // Pass data to the page via props
-  return {
-    props: {
-      ...response.data,
-    },
-  };
-}
 
 export default Home;

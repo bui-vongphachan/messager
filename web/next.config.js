@@ -12,16 +12,7 @@ module.exports = {
   reactStrictMode: false,
   distDir: "build",
   images: {
-    loader: 'imgix',
-    path: 'https://platform-lookaside.fbsbx.com/',
-  },
-  exportPathMap: async function (
-    defaultPathMap,
-    { dev, dir, outDir, distDir, buildId }
-  ) {
-    return {
-      "/": { page: "/home" },
-      "/login": { page: "/login" },
-    };
+    loader: "imgix",
+    path: "https://platform-lookaside.fbsbx.com/",
   },
 };
