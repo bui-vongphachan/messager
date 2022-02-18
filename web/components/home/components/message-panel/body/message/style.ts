@@ -25,6 +25,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
       alignItems: isOwn ? "flex-end" : "flex-start",
       marginTop: haveTimeGap ? "1.5rem" : "0.1rem",
       marginBottom: "0.1rem",
+      marginLeft: "1rem",
     };
   },
   contentBox: () => {
