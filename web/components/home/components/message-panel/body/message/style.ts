@@ -27,7 +27,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
       display: "flex",
       flexDirection: "column",
       alignItems: isOwn ? "flex-end" : "flex-start",
-      marginTop: haveTimeGap ? "1.5rem" : "0.1rem",
+      marginTop: haveTimeGap || !previousMessage ? "1.5rem" : "0.1rem",
       marginBottom: nextMessage ? ".1rem" : "2rem",
       marginLeft: "1rem",
     };
