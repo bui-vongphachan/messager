@@ -21,7 +21,9 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         port: ${{ secrets.PORT }}
         script: |
-          cd messager/web
+          cd messager
+          git pull origin master
+          cd web
           sh docker-delete.sh
           sh docker-build.sh
           sh docker-run.sh
