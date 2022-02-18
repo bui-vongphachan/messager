@@ -13,9 +13,8 @@ jobs:
 
 
     steps:
-    - uses: appleboy/ssh-action@master
     - name: Connect to server
-      uses: actions/setup-node@v2
+      uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
