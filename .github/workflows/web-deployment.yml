@@ -5,8 +5,10 @@ name: Web Deployment
 
 on:
   push:
-    branches: [ master ]
-    paths: [ web ]
+    branches:
+      - master
+    paths:
+      - web
 
 jobs:
   deploy-web:
