@@ -76,9 +76,6 @@ export default function MessagePanelBody(props: {
               deferredMeasurementCache={cache.current}
               scrollToIndex={messages.length || 0}
               rowRenderer={({ key, parent, index, style }) => {
-                const previousMessage = messages[index - 1];
-                const currentMessage = messages[index];
-
                 return (
                   <CellMeasurer
                     key={key}
@@ -89,8 +86,8 @@ export default function MessagePanelBody(props: {
                   >
                     <div style={{ ...style }}>
                       <MessageComponent
-                        currentMessage={currentMessage!}
-                        previousMessage={previousMessage}
+                        current_index={index}
+                        messages={messages}
                       />
                     </div>
                   </CellMeasurer>

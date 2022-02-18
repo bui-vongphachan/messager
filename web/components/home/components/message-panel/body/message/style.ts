@@ -6,10 +6,14 @@ import { Message } from "../../../../../../models";
 export const useStyles = makeStyles((theme: Theme) => ({
   box: (props: {
     user_id: string;
-    currentMessage: Message;
-    previousMessage: Message | null | undefined;
+    current_index: number;
+    messages: Message[];
   }) => {
-    const { user_id, currentMessage, previousMessage } = props;
+    const { user_id, current_index, messages } = props;
+
+    const currentMessage = messages[current_index];
+    const previousMessage = messages[current_index - 1];
+    const nextMessage = messages[current_index + 1];
 
     const currentDate = moment(currentMessage.createdAt);
     const previousDate = moment(previousMessage?.createdAt);
@@ -24,7 +28,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
       flexDirection: "column",
       alignItems: isOwn ? "flex-end" : "flex-start",
       marginTop: haveTimeGap ? "1.5rem" : "0.1rem",
-      marginBottom: "0.1rem",
+      marginBottom: nextMessage ? ".1rem" : "2rem",
       marginLeft: "1rem",
     };
   },

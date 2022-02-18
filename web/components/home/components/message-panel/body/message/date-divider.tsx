@@ -1,12 +1,17 @@
 import { Divider } from "@mui/material";
 import moment from "moment";
+import { useMemo } from "react";
 import { Message } from "../../../../../../models";
 
-const DateDivider = (props: {
-  currentMessage: Message;
-  previousMessage: Message | null | undefined;
-}) => {
-  const { currentMessage, previousMessage } = props;
+const DateDivider = (props: { current_index: number; messages: Message[] }) => {
+  const { current_index, messages } = props;
+
+  const { currentMessage, previousMessage } = useMemo(() => {
+    return {
+      currentMessage: messages[current_index],
+      previousMessage: messages[current_index - 1],
+    };
+  }, [messages, current_index]);
 
   if (!previousMessage) {
     return null;
