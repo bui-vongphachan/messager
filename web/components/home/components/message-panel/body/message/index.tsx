@@ -6,7 +6,7 @@ import { Fragment, memo, useMemo } from "react";
 import DateDivider from "./date-divider";
 import moment from "moment";
 
-const MessageComponent = (props: {
+const MessageComponent = (props: {  
   current_index: number;
   messages: Message[];
 }) => {
