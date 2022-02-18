@@ -26,7 +26,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const client = new ApolloClient({
     ssrMode: true,
     link: createHttpLink({
-      uri: " http://localhost:4000/graphql",
+      uri: process.env.NEXT_PUBLIC_BACKEND_URL,
       headers: {
         Authorization: cookie.get("access_token"),
       },
