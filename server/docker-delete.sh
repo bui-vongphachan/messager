@@ -1,0 +1,1 @@
+docker rm --force $(docker ps -f name=backend-messenger --format "{{.ID}}")
