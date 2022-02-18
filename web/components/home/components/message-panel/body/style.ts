@@ -4,7 +4,6 @@ import { makeStyles } from "@mui/styles";
 export const useStyles = makeStyles((theme: Theme) => ({
   box: {
     height: "100%",
-    overflowX: "hidden",
     backgroundColor: theme.palette.grey[100],
   },
   virtualizedList: {
