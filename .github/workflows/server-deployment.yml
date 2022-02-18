@@ -1,4 +1,4 @@
-name: Messenger Server Deployment
+name: Server Deployment
 
 on:
   push:
