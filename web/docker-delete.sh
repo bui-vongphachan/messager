@@ -1,0 +1,1 @@
+docker rm --force $(docker ps -f name=web-messenger --format "{{.ID}}")

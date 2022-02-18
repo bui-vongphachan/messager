@@ -28,9 +28,6 @@
 
 # typescript
 */*.tsbuildinfo
-*/*.config
 
 */*.yml
 */*.yaml
-*/Dockerfile
-*/*.sh
