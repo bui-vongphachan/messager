@@ -2,8 +2,10 @@ name: Server Deployment
 
 on:
   push:
-    branches: [ master ]
-    paths: [ server ]
+    branches:
+      - master
+    paths:
+      - server/**
 
 jobs:
   deploy-web:
