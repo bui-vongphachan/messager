@@ -5,10 +5,9 @@ name: Web Deployment
 
 on:
   push:
-    branches:
-      - master
+    branches: [ master ]
     paths:
-      - web
+      - './.github/**'
 
 jobs:
   deploy-web:
