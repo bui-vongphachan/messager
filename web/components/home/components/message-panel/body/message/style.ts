@@ -22,12 +22,14 @@ export const useStyles = makeStyles((theme: Theme) => ({
 
     const isOwn = currentMessage.from._id === user_id;
     const haveTimeGap = timeDiff >= 5;
+    const newSender = currentMessage.from._id !== previousMessage?.from._id;
 
     return {
       display: "flex",
       flexDirection: "column",
       alignItems: isOwn ? "flex-end" : "flex-start",
-      marginTop: haveTimeGap || !previousMessage ? "1.5rem" : "0.1rem",
+      marginTop:
+        haveTimeGap || !previousMessage || newSender ? "1.5rem" : "0.1rem",
       marginBottom: nextMessage ? ".1rem" : "2rem",
       marginLeft: "1rem",
     };
@@ -39,13 +41,26 @@ export const useStyles = makeStyles((theme: Theme) => ({
     padding: ".3rem .7rem",
   },
   messageHeader: {},
-  messageHeaderText: {
-    cursor: "pointer",
-    color: theme.palette.secondary.main,
-    "&:hover": {
-      color: theme.palette.secondary.dark,
-    },
-    display: "none",
+  messageHeaderText: (props: {
+    user_id: string;
+    current_index: number;
+    messages: Message[];
+  }) => {
+    const { user_id, current_index, messages } = props;
+
+    const currentMessage = messages[current_index];
+    const previousMessage = messages[current_index - 1];
+
+    const newSender = currentMessage.from._id !== previousMessage?.from._id;
+
+    return {
+      cursor: "pointer",
+      color: theme.palette.secondary.main,
+      "&:hover": {
+        color: theme.palette.secondary.dark,
+      },
+      display: newSender ? "block" : "none",
+    };
   },
   messageBody: {
     minWidth: "70px",
