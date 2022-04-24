@@ -26,7 +26,7 @@ const firebaseDatabase = getDatabase(firebase);
 
 const auth = getAuth(firebase);
 
-signInAnonymously(auth)
+/* signInAnonymously(auth)
   .then(() => {
     const cookie = new Cookie();
     const user_id = cookie.get("user_id");
@@ -57,6 +57,6 @@ signInAnonymously(auth)
   })
   .catch((error) => {
     console.log({ error });
-  });
+  }); */
 
 export { firebase, firebaseDatabase };
