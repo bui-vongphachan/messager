@@ -30,11 +30,7 @@ const ProfileComponent = (props: { profile: ProfileWithPresence }) => {
       >
         <ListItemButton onClick={() => setSelectedProfile!(profile)}>
           <ListItemAvatar>
-            <Avatar
-              className={classes.listItemAvatar}
-              alt="Remy Sharp"
-              src={profile.picture}
-            />
+            <Avatar className={classes.listItemAvatar} alt="Remy Sharp" />
           </ListItemAvatar>
           <ListItemText>
             <Box className={classes.listItemTextHeaderBox}>
