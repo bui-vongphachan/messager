@@ -12,7 +12,6 @@ import { AuthenticationError } from "apollo-server";
 import { pubsub, verifyToken } from "./helpers";
 import { app } from "./app";
 import fs from "fs";
-import { firebaseDatabase } from "./helpers/firebase";
 import { FACEBOOK_PROFILE_QUEUE, FirebaseUser } from "./models";
 import moment from "moment";
 
@@ -104,18 +103,5 @@ dotenv.config();
     });
 
     console.log("Connected to database");
-
-    const profiles = firebaseDatabase.ref(`/profiles`);
-
-    profiles.on("child_changed", async (snapshot) => {
-      const user = snapshot.val() as FirebaseUser;
-
-      await pubsub.publish(FACEBOOK_PROFILE_QUEUE.PRESENCE_CHANGES, {
-        getMoreUserPresences: {
-          ...user,
-          last_seen: moment(user.last_changed).format("HH:mm:ss"),
-        },
-      });
-    });
   });
 })();
